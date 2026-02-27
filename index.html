@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academia de Música Online | Aprendiendo un Nuevo Idioma</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome para Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts (Poppins) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            dark: '#0f172a',
+                            card: '#1e293b',
+                            primary: '#800000', // Color granate del logo
+                            secondary: '#a11d1d',
+                            accent: '#d4af37'   // Dorado para resaltar
+                        }
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #0f172a; color: #f8fafc; overflow-x: hidden; }
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #800000, #d4af37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .course-card { transition: all 0.4s ease; }
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(128, 0, 0, 0.3);
+        }
+        .course-card:hover .course-img { transform: scale(1.05); }
+        .course-img { transition: transform 0.5s ease; }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #800000; }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-primary selection:text-white relative">
+
+    <!-- Background Blobs -->
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-brand-primary rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-blob"></div>
+        <div class="absolute top-[20%] right-[-10%] w-96 h-96 bg-brand-secondary rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-blob animation-delay-2000"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center cursor-pointer">
+                    <!-- Integración del Logotipo -->
+                    <img src="https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,quality=75,width=620,height=310/editor-attachments/cl_p0y08o7_1226065664168050.png" alt="Academia de Música Online" class="h-12 md:h-16 w-auto object-contain">
+                </div>
+                <div class="hidden md:flex items-center space-x-8 font-medium">
+                    <a href="#inicio" class="text-gray-300 hover:text-white transition-colors">Inicio</a>
+                    <a href="#cursos" class="text-gray-300 hover:text-white transition-colors">Instrumentos</a>
+                    <a href="#metodologia" class="text-gray-300 hover:text-white transition-colors">Método</a>
+                    <a href="#contacto" class="bg-brand-primary text-white px-6 py-2.5 rounded-full shadow-lg hover:bg-brand-secondary hover:scale-105 transition-all">¡Clase Gratis!</a>
+                </div>
+                <button class="md:hidden text-white text-2xl" id="menuBtn">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden bg-brand-dark border-b border-gray-800 p-4 space-y-4" id="mobileMenu">
+            <a href="#inicio" class="block text-gray-300">Inicio</a>
+            <a href="#cursos" class="block text-gray-300">Cursos</a>
+            <a href="#metodologia" class="block text-gray-300">Metodología</a>
+            <a href="#contacto" class="block text-brand-accent font-bold">¡Prueba Gratis!</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="pt-32 pb-20 lg:pt-48 lg:pb-32 px-4 relative">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12">
+            <div class="lg:w-1/2 text-center lg:text-left z-10 animate-fade-in-up">
+                <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight mb-6">
+                    Música: <br/>
+                    <span class="text-gradient">Tu Nuevo Idioma</span>
+                </h1>
+                <p class="text-lg text-gray-400 mb-8 max-w-2xl mx-auto lg:mx-0">
+                    Aprende a expresarte a través de los instrumentos con la metodología más moderna. Tu habitación es el mejor escenario para empezar hoy mismo.
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                    <a href="#cursos" class="w-full sm:w-auto bg-brand-primary text-white px-8 py-4 rounded-full font-bold hover:bg-brand-secondary transition-all text-center shadow-xl">Explorar Instrumentos</a>
+                    <a href="#metodologia" class="w-full sm:w-auto border border-brand-primary/50 text-white px-8 py-4 rounded-full font-bold hover:bg-white/10 transition-colors text-center">Nuestro Método</a>
+                </div>
+                <div class="mt-8 flex items-center justify-center lg:justify-start space-x-4">
+                    <div class="flex -space-x-2">
+                        <img src="https://i.pravatar.cc/100?u=1" class="w-10 h-10 rounded-full border-2 border-brand-dark">
+                        <img src="https://i.pravatar.cc/100?u=2" class="w-10 h-10 rounded-full border-2 border-brand-dark">
+                        <img src="https://i.pravatar.cc/100?u=3" class="w-10 h-10 rounded-full border-2 border-brand-dark">
+                    </div>
+                    <p class="text-sm text-gray-500 font-medium">+500 alumnos aprendiendo este idioma</p>
+                </div>
+            </div>
+            <div class="lg:w-1/2 relative z-10 reveal">
+                <div class="absolute inset-0 bg-brand-primary/30 rounded-[2rem] transform rotate-3 scale-105 opacity-50 blur-lg"></div>
+                <div class="relative rounded-[2rem] overflow-hidden border border-gray-700 bg-brand-card shadow-2xl group">
+                    <img src="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=1000&q=80" alt="Estudiante de música" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-transparent to-transparent flex items-end p-8">
+                        <div>
+                            <span class="bg-brand-accent text-brand-dark text-xs font-bold px-3 py-1 rounded-full uppercase mb-2 inline-block">Comunidad</span>
+                            <p class="text-lg font-bold italic text-white">"La música no se estudia, se habla. Aquí aprendí a decir lo que siento con mi guitarra."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Methodology Section -->
+    <section id="metodologia" class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-brand-accent font-bold uppercase text-sm mb-2 tracking-widest">¿Por qué nosotros?</h2>
+                <h3 class="text-4xl md:text-5xl font-extrabold">Habla el Idioma de la <span class="text-gradient">Música</span></h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-brand-card p-8 rounded-3xl border border-gray-800 reveal">
+                    <div class="w-16 h-16 bg-brand-primary/20 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fa-solid fa-microphone-lines text-brand-primary text-3xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3">Enfoque Conversacional</h4>
+                    <p class="text-gray-400">Tratamos la música como un lenguaje. Primero aprendes a "hablar" (tocar) y luego a "escribir" (teoría).</p>
+                </div>
+                <div class="bg-brand-card p-8 rounded-3xl border border-gray-800 reveal" style="transition-delay: 100ms;">
+                    <div class="w-16 h-16 bg-brand-accent/20 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fa-solid fa-laptop-code text-brand-accent text-3xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3">Tecnología al Servicio</h4>
+                    <p class="text-gray-400">Plataforma interactiva con partituras digitales y acompañamientos automáticos para practicar.</p>
+                </div>
+                <div class="bg-brand-card p-8 rounded-3xl border border-gray-800 reveal" style="transition-delay: 200ms;">
+                    <div class="w-16 h-16 bg-brand-secondary/20 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fa-solid fa-music text-brand-secondary text-3xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3">Reportorio Actual</h4>
+                    <p class="text-gray-400">Aprende con las canciones que te gustan. Adaptamos cualquier género a tu nivel actual.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section id="cursos" class="py-20 relative z-10 bg-gray-950/50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-brand-accent font-bold uppercase text-sm mb-2 tracking-widest">Oferta Académica</h2>
+                <h3 class="text-4xl md:text-5xl font-extrabold">Tu Próximo <span class="text-gradient">Instrumento</span></h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Piano -->
+                <div class="course-card bg-brand-card rounded-2xl overflow-hidden border border-gray-800 reveal">
+                    <img src="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?auto=format&fit=crop&w=800&q=80" alt="Piano" class="w-full h-56 object-cover course-img">
+                    <div class="p-6">
+                        <h4 class="text-2xl font-bold mb-2">Piano & Teclados</h4>
+                        <p class="text-gray-400 text-sm mb-4">La base armónica perfecta. Desde lo clásico hasta el pop actual.</p>
+                        <a href="#contacto" class="text-brand-accent font-bold inline-flex items-center hover:translate-x-2 transition-transform">Info del Curso <i class="fa-solid fa-chevron-right ml-2 text-xs"></i></a>
+                    </div>
+                </div>
+
+                <!-- Guitarra -->
+                <div class="course-card bg-brand-card rounded-2xl overflow-hidden border border-gray-800 reveal">
+                    <img src="https://images.unsplash.com/photo-1564186763535-ebb21ef5277f?auto=format&fit=crop&w=800&q=80" alt="Guitarra" class="w-full h-56 object-cover course-img">
+                    <div class="p-6">
+                        <h4 class="text-2xl font-bold mb-2">Guitarra</h4>
+                        <p class="text-gray-400 text-sm mb-4">Acústica o eléctrica. Domina los acordes y tus primeros solos.</p>
+                        <a href="#contacto" class="text-brand-accent font-bold inline-flex items-center hover:translate-x-2 transition-transform">Info del Curso <i class="fa-solid fa-chevron-right ml-2 text-xs"></i></a>
+                    </div>
+                </div>
+
+                <!-- Canto -->
+                <div class="course-card bg-brand-card rounded-2xl overflow-hidden border border-gray-800 reveal">
+                    <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=800&q=80" alt="Canto" class="w-full h-56 object-cover course-img">
+                    <div class="p-6">
+                        <h4 class="text-2xl font-bold mb-2">Canto Moderno</h4>
+                        <p class="text-gray-400 text-sm mb-4">Libera tu voz. Técnica vocal para brillar en cualquier escenario.</p>
+                        <a href="#contacto" class="text-brand-accent font-bold inline-flex items-center hover:translate-x-2 transition-transform">Info del Curso <i class="fa-solid fa-chevron-right ml-2 text-xs"></i></a>
+                    </div>
+                </div>
+
+                <!-- Bajo -->
+                <div class="course-card bg-brand-card rounded-2xl overflow-hidden border border-gray-800 reveal">
+                    <img src="https://images.unsplash.com/photo-1593693241400-05886470081d?auto=format&fit=crop&w=800&q=80" alt="Bajo" class="w-full h-56 object-cover course-img">
+                    <div class="p-6">
+                        <h4 class="text-2xl font-bold mb-2">Bajo Eléctrico</h4>
+                        <p class="text-gray-400 text-sm mb-4">El motor del ritmo. Aprende a crear el groove que mueve a la banda.</p>
+                        <a href="#contacto" class="text-brand-accent font-bold inline-flex items-center hover:translate-x-2 transition-transform">Info del Curso <i class="fa-solid fa-chevron-right ml-2 text-xs"></i></a>
+                    </div>
+                </div>
+
+                <!-- Producción -->
+                <div class="course-card bg-brand-card rounded-2xl overflow-hidden border border-gray-800 reveal">
+                    <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=800&q=80" alt="Producción" class="w-full h-56 object-cover course-img">
+                    <div class="p-6">
+                        <h4 class="text-2xl font-bold mb-2">Producción</h4>
+                        <p class="text-gray-400 text-sm mb-4">Crea tus propios beats y canciones. Home Studio desde cero.</p>
+                        <a href="#contacto" class="text-brand-accent font-bold inline-flex items-center hover:translate-x-2 transition-transform">Info del Curso <i class="fa-solid fa-chevron-right ml-2 text-xs"></i></a>
+                    </div>
+                </div>
+
+                <!-- CTA -->
+                <div class="bg-gradient-to-br from-brand-primary to-brand-secondary rounded-2xl p-8 flex flex-col justify-center items-center text-center reveal shadow-2xl border border-white/5">
+                    <i class="fa-solid fa-star text-4xl text-brand-accent mb-4 animate-pulse"></i>
+                    <h4 class="text-2xl font-bold text-white mb-2">¿Sin instrumento?</h4>
+                    <p class="text-white/80 mb-6">Te asesoramos para que compres el ideal según tu presupuesto.</p>
+                    <a href="#contacto" class="bg-white text-brand-dark px-8 py-3 rounded-full font-bold hover:bg-brand-accent hover:text-brand-dark transition-all">Consultar Gratis</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="py-20 px-4 bg-brand-dark/50">
+        <div class="max-w-4xl mx-auto bg-brand-card rounded-[3rem] p-8 md:p-16 border border-gray-800 shadow-2xl reveal">
+            <div class="text-center mb-10">
+                <h3 class="text-4xl font-extrabold mb-4 italic">Aprendiendo un Nuevo Idioma</h3>
+                <p class="text-gray-400">Inicia hoy tu clase de prueba sin compromiso. Estamos listos para escucharte.</p>
+            </div>
+            <form class="grid grid-cols-1 md:grid-cols-2 gap-6" onsubmit="event.preventDefault(); alert('¡Solicitud recibida! Pronto hablarás música.');">
+                <div>
+                    <label class="block text-sm font-bold text-gray-500 mb-2">Tu Nombre</label>
+                    <input type="text" placeholder="..." class="w-full bg-brand-dark border border-gray-700 rounded-xl px-4 py-3 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary text-white outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-500 mb-2">WhatsApp / Email</label>
+                    <input type="text" placeholder="..." class="w-full bg-brand-dark border border-gray-700 rounded-xl px-4 py-3 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary text-white outline-none">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-bold text-gray-500 mb-2">¿Qué instrumento quieres "hablar"?</label>
+                    <select class="w-full bg-brand-dark border border-gray-700 rounded-xl px-4 py-3 focus:border-brand-primary text-white outline-none appearance-none">
+                        <option>Piano</option>
+                        <option>Guitarra</option>
+                        <option>Canto</option>
+                        <option>Bajo</option>
+                        <option>Producción</option>
+                    </select>
+                </div>
+                <div class="md:col-span-2 text-center mt-6">
+                    <button class="bg-brand-primary text-white px-12 py-4 rounded-full font-bold text-lg hover:bg-brand-secondary transition-all shadow-xl">
+                        Solicitar Mi Clase Gratis
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 px-4 border-t border-brand-primary/20">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-center md:text-left">
+                <img src="https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,quality=75,width=620,height=310/editor-attachments/cl_p0y08o7_1226065664168050.png" alt="Logo" class="h-10 mx-auto md:mx-0 mb-4 brightness-90">
+                <p class="text-gray-600 text-xs">© 2026 Academia de Música Online. Todos los derechos reservados.</p>
+            </div>
+            <div class="flex space-x-6 text-xl">
+                <a href="#" class="text-gray-600 hover:text-brand-primary transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="text-gray-600 hover:text-brand-accent transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="text-gray-600 hover:text-brand-secondary transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) reveals[i].classList.add("active");
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('py-2', 'bg-brand-dark/95');
+            } else {
+                navbar.classList.remove('py-2', 'bg-brand-dark/95');
+            }
+        });
+
+        reveal();
+    </script>
+</body>
+</html>
